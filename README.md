@@ -65,7 +65,7 @@ A API estará disponível em `http://localhost:3000`
 ```
 
 ### Venda
-```json
+```json 
 {
   "cliente_id": 1,
   "itens": [
