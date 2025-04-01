@@ -28,3 +28,27 @@ CREATE TABLE IF NOT EXISTS vendas (
     status VARCHAR(20) NOT NULL DEFAULT 'pendente',
     CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
+
+-- Criar tabela de áreas
+CREATE TABLE IF NOT EXISTS areas (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    responsavel VARCHAR(100) NOT NULL
+);
+
+-- Criar tabela de processos
+CREATE TABLE IF NOT EXISTS processos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    area_id INTEGER REFERENCES areas(id),
+    processo_pai_id INTEGER REFERENCES processos(id),
+    sistemas TEXT[],
+    responsaveis TEXT[],
+    documentacao TEXT[]
+);
+
+-- Criar índices para melhorar a performance
+CREATE INDEX IF NOT EXISTS idx_processos_area_id ON processos(area_id);
+CREATE INDEX IF NOT EXISTS idx_processos_processo_pai_id ON processos(processo_pai_id);

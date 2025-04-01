@@ -1,6 +1,6 @@
-# API de Clientes, Produtos e Vendas
+# Sistema de Gestão de Áreas e Processos
 
-API REST para gerenciamento de clientes, produtos e vendas desenvolvida com Node.js, Express, TypeScript e PostgreSQL.
+API REST para gerenciamento de áreas e processos desenvolvida com Node.js, Express, TypeScript e PostgreSQL.
 
 ## Requisitos
 
@@ -71,75 +71,46 @@ npm start
 
 ## Endpoints
 
-### Clientes
+### Áreas
 
-- `GET /api/clientes` - Lista todos os clientes
-- `GET /api/clientes/:id` - Busca um cliente específico
-- `POST /api/clientes` - Cria um novo cliente
-- `PUT /api/clientes/:id` - Atualiza um cliente existente
-- `DELETE /api/clientes/:id` - Remove um cliente
+- `GET /api/areas` - Lista todas as áreas
+- `GET /api/areas/:id` - Busca uma área específica
+- `POST /api/areas` - Cria uma nova área
+- `PUT /api/areas/:id` - Atualiza uma área existente
+- `DELETE /api/areas/:id` - Remove uma área
 
-### Produtos
+### Processos
 
-- `GET /api/produtos` - Lista todos os produtos
-- `GET /api/produtos/:id` - Busca um produto específico
-- `POST /api/produtos` - Cria um novo produto
-- `PUT /api/produtos/:id` - Atualiza um produto existente
-- `DELETE /api/produtos/:id` - Remove um produto
-
-### Vendas
-
-- `GET /api/vendas` - Lista todas as vendas
-- `GET /api/vendas/:id` - Busca uma venda específica
-- `POST /api/vendas` - Cria uma nova venda
-- `PATCH /api/vendas/:id/status` - Atualiza o status de uma venda
+- `GET /api/processos` - Lista todos os processos
+- `GET /api/processos/:id` - Busca um processo específico
+- `POST /api/processos` - Cria um novo processo
+- `PUT /api/processos/:id` - Atualiza um processo existente
+- `DELETE /api/processos/:id` - Remove um processo
+- `GET /api/processos/:id/subprocessos` - Lista os subprocessos de um processo
 
 ## Exemplos de Payload
 
-### Cliente
+### Área
 ```json
 {
-  "nome": "Nome do Cliente",
-  "email": "email@exemplo.com",
-  "telefone": "(11) 99999-9999",
-  "endereco": "Endereço completo do cliente"
+  "nome": "Nome da Área",
+  "descricao": "Descrição da área",
+  "responsavel": "Nome do Responsável"
 }
 ```
 
-### Produto
-```json
-{
-  "nome": "Nome do Produto",
-  "descricao": "Descrição do produto",
-  "preco": 99.99,
-  "quantidade_estoque": 100
-}
-```
-
-### Venda
+### Processo
 ```json 
 {
-  "cliente_id": 1,
-  "itens": [
-    {
-      "produto_id": 1,
-      "quantidade": 2
-    },
-    {
-      "produto_id": 2,
-      "quantidade": 1
-    }
-  ]
+  "nome": "Nome do Processo",
+  "descricao": "Descrição do processo",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas": ["Sistema 1", "Sistema 2"],
+  "responsaveis": ["Responsável 1", "Responsável 2"],
+  "documentacao": ["Link 1", "Link 2"]
 }
 ```
-
-### Atualização de Status da Venda
-```json
-{
-  "status": "concluida"
-}
-```
-Status disponíveis: "pendente", "concluida", "cancelada"
 
 ## Tecnologias Utilizadas
 
