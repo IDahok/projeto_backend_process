@@ -7,6 +7,7 @@ export class ProcessoController {
       const processos = await ProcessoModel.findAll();
       res.json(processos);
     } catch (error) {
+        console.log(error);
       res.status(500).json({ error: 'Erro ao listar processos' });
     }
   }

@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-
+console.log(process.env);
 // Configuração do pool de conexões
 const pool = new Pool({
   host: process.env["DB_HOST"],
