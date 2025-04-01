@@ -4,18 +4,70 @@ API REST para gerenciamento de clientes, produtos e vendas desenvolvida com Node
 
 ## Requisitos
 
+- Node.js (versão 14 ou superior)
 - Docker
 - Docker Compose
 
-## Como executar
+## Configuração do Ambiente
 
 1. Clone o repositório
-2. Execute o comando para iniciar os containers:
+2. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+```env
+DB_PASSWORD=sua_senha
+DB_NAME=postgres
+DB_USER=postgres
+DB_HOST=host_do_banco
+DB_PORT=5432
+```
+
+## Como executar
+
+### Usando Docker (Recomendado)
+
+1. Execute o comando para iniciar os containers:
 ```bash
 docker-compose up --build
 ```
 
 A API estará disponível em `http://localhost:3000`
+
+### Localmente
+
+1. Instale as dependências:
+```bash
+npm install
+```
+
+2. Execute o projeto em modo desenvolvimento:
+```bash
+npm run dev
+```
+
+3. Para build de produção:
+```bash
+npm run build
+npm start
+```
+
+## Scripts Disponíveis
+
+- `npm run dev`: Inicia o servidor em modo desenvolvimento com hot-reload
+- `npm run build`: Compila o TypeScript para JavaScript
+- `npm start`: Inicia o servidor em modo produção
+- `npm test`: Executa os testes
+
+## Estrutura do Projeto
+
+```
+.
+├── src/                    # Código fonte
+├── dist/                   # Código compilado
+├── docker-compose.yml      # Configuração do Docker Compose
+├── Dockerfile             # Configuração do Docker
+├── package.json           # Dependências e scripts
+├── tsconfig.json          # Configuração do TypeScript
+└── .env                   # Variáveis de ambiente
+```
 
 ## Endpoints
 
@@ -87,4 +139,13 @@ A API estará disponível em `http://localhost:3000`
   "status": "concluida"
 }
 ```
-Status disponíveis: "pendente", "concluida", "cancelada" 
+Status disponíveis: "pendente", "concluida", "cancelada"
+
+## Tecnologias Utilizadas
+
+- Node.js
+- Express
+- TypeScript
+- PostgreSQL
+- Docker
+- Docker Compose 
