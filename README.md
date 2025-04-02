@@ -69,25 +69,8 @@ Lista todas as áreas.
     "id": 1,
     "nome": "TI",
     "descricao": "Área de Tecnologia da Informação"
-  },
-  {
-    "id": 2,
-    "nome": "RH",
-    "descricao": "Recursos Humanos"
   }
 ]
-```
-
-#### GET /api/areas/:id
-Busca uma área específica.
-
-**Resposta:**
-```json
-{
-  "id": 1,
-  "nome": "TI",
-  "descricao": "Área de Tecnologia da Informação"
-}
 ```
 
 #### POST /api/areas
@@ -98,45 +81,6 @@ Cria uma nova área.
 {
   "nome": "TI",
   "descricao": "Área de Tecnologia da Informação"
-}
-```
-
-**Resposta:**
-```json
-{
-  "id": 1,
-  "nome": "TI",
-  "descricao": "Área de Tecnologia da Informação"
-}
-```
-
-#### PUT /api/areas/:id
-Atualiza uma área existente.
-
-**Request:**
-```json
-{
-  "nome": "Tecnologia da Informação",
-  "descricao": "Área responsável por sistemas e infraestrutura"
-}
-```
-
-**Resposta:**
-```json
-{
-  "id": 1,
-  "nome": "Tecnologia da Informação",
-  "descricao": "Área responsável por sistemas e infraestrutura"
-}
-```
-
-#### DELETE /api/areas/:id
-Remove uma área.
-
-**Resposta:**
-```json
-{
-  "message": "Área removida com sucesso"
 }
 ```
 
@@ -154,7 +98,7 @@ Lista todos os processos.
     "descricao": "Processo de desenvolvimento de aplicações",
     "area_id": 1,
     "processo_pai_id": null,
-    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL"],
     "area": {
       "id": 1,
       "nome": "TI",
@@ -164,23 +108,17 @@ Lista todos os processos.
 ]
 ```
 
-#### GET /api/processos/:id
-Busca um processo específico.
+#### POST /api/processos
+Cria um novo processo.
 
-**Resposta:**
+**Request:**
 ```json
 {
-  "id": 1,
   "nome": "Desenvolvimento de Software",
   "descricao": "Processo de desenvolvimento de aplicações",
   "area_id": 1,
   "processo_pai_id": null,
-  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
-  "area": {
-    "id": 1,
-    "nome": "TI",
-    "descricao": "Área de Tecnologia da Informação"
-  }
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL"]
 }
 ```
 
@@ -196,7 +134,7 @@ Busca a árvore de processos de uma área ou a partir de um processo específico
     "descricao": "Processo de desenvolvimento de aplicações",
     "area_id": 1,
     "processo_pai_id": null,
-    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL"],
     "area": {
       "id": 1,
       "nome": "TI",
@@ -209,96 +147,14 @@ Busca a árvore de processos de uma área ou a partir de um processo específico
         "descricao": "Processo de análise e documentação de requisitos",
         "area_id": 1,
         "processo_pai_id": 1,
-        "sistemas_ferramentas": ["Jira", "Confluence", "Draw.io"],
+        "sistemas_ferramentas": ["Jira", "Confluence"],
         "area": {
           "id": 1,
           "nome": "TI",
           "descricao": "Área de Tecnologia da Informação"
-        },
-        "processo_pai": {
-          "id": 1,
-          "nome": "Desenvolvimento de Software",
-          "descricao": "Processo de desenvolvimento de aplicações"
         }
       }
     ]
   }
 ]
-```
-
-#### POST /api/processos
-Cria um novo processo.
-
-**Request:**
-```json
-{
-  "nome": "Desenvolvimento de Software",
-  "descricao": "Processo de desenvolvimento de aplicações",
-  "area_id": 1,
-  "processo_pai_id": null,
-  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"]
-}
-```
-
-**Resposta:**
-```json
-{
-  "id": 1,
-  "nome": "Desenvolvimento de Software",
-  "descricao": "Processo de desenvolvimento de aplicações",
-  "area_id": 1,
-  "processo_pai_id": null,
-  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
-  "area": {
-    "id": 1,
-    "nome": "TI",
-    "descricao": "Área de Tecnologia da Informação"
-  }
-}
-```
-
-#### PUT /api/processos/:id
-Atualiza um processo existente.
-
-**Request:**
-```json
-{
-  "nome": "Desenvolvimento de Software",
-  "descricao": "Processo de desenvolvimento e manutenção de aplicações",
-  "area_id": 1,
-  "processo_pai_id": null,
-  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js", "Docker"]
-}
-```
-
-**Resposta:**
-```json
-{
-  "id": 1,
-  "nome": "Desenvolvimento de Software",
-  "descricao": "Processo de desenvolvimento e manutenção de aplicações",
-  "area_id": 1,
-  "processo_pai_id": null,
-  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js", "Docker"],
-  "area": {
-    "id": 1,
-    "nome": "TI",
-    "descricao": "Área de Tecnologia da Informação"
-  }
-}
-```
-
-#### DELETE /api/processos/:id
-Remove um processo.
-
-**Resposta:**
-```json
-{
-  "message": "Processo removido com sucesso"
-}
-```
-
-## Exemplos de Payload
-
-### Área
 ```
