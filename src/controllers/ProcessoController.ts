@@ -7,7 +7,6 @@ export class ProcessoController {
       const processos = await ProcessoModel.findAll();
       res.json(processos);
     } catch (error) {
-        console.log(error);
       res.status(500).json({ error: 'Erro ao listar processos' });
     }
   }
@@ -27,13 +26,13 @@ export class ProcessoController {
     }
   }
 
-  static async listarSubprocessos(req: Request, res: Response) {
+  static async buscarArvoreProcessos(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
-      const subprocessos = await ProcessoModel.findSubprocessos(id);
-      res.json(subprocessos);
+      const id = req.params.id ? parseInt(req.params.id) : undefined;
+      const arvore = await ProcessoModel.findArvoreProcessos(id);
+      res.json(arvore);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao listar subprocessos' });
+      res.status(500).json({ error: 'Erro ao buscar árvore de processos' });
     }
   }
 

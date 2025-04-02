@@ -12,7 +12,6 @@ export interface Area {
   id: number;
   nome: string;
   descricao: string;
-  responsavel: string;
 }
 
 export class AreaModel {
@@ -28,16 +27,16 @@ export class AreaModel {
 
   static async create(area: Omit<Area, 'id'>): Promise<Area> {
     const result = await pool.query(
-      'INSERT INTO areas (nome, descricao, responsavel) VALUES ($1, $2, $3) RETURNING *',
-      [area.nome, area.descricao, area.responsavel]
+      'INSERT INTO areas (nome, descricao) VALUES ($1, $2) RETURNING *',
+      [area.nome, area.descricao]
     );
     return result.rows[0];
   }
 
   static async update(id: number, area: Partial<Omit<Area, 'id'>>): Promise<Area | null> {
     const result = await pool.query(
-      'UPDATE areas SET nome = COALESCE($1, nome), descricao = COALESCE($2, descricao), responsavel = COALESCE($3, responsavel) WHERE id = $4 RETURNING *',
-      [area.nome, area.descricao, area.responsavel, id]
+      'UPDATE areas SET nome = COALESCE($1, nome), descricao = COALESCE($2, descricao) WHERE id = $3 RETURNING *',
+      [area.nome, area.descricao, id]
     );
     return result.rows[0] || null;
   }

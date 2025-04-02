@@ -1,122 +1,304 @@
-# Sistema de Gestão de Áreas e Processos
+# Sistema de Gestão de Processos
 
-API REST para gerenciamento de áreas e processos desenvolvida com Node.js, Express, TypeScript e PostgreSQL.
+Sistema para gerenciamento de processos e subprocessos organizados por áreas.
 
 ## Requisitos
 
-- Node.js (versão 14 ou superior)
-- Docker
-- Docker Compose
+- Node.js 18+
+- PostgreSQL 14+
+- npm ou yarn
 
-## Configuração do Ambiente
+## Configuração
 
 1. Clone o repositório
-2. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-```env
-DB_PASSWORD=sua_senha
-DB_NAME=postgres
-DB_USER=postgres
-DB_HOST=host_do_banco
-DB_PORT=5432
-```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Configure as variáveis de ambiente no arquivo `.env`:
+   ```
+   DB_USER=seu_usuario
+   DB_HOST=localhost
+   DB_NAME=nome_do_banco
+   DB_PASSWORD=sua_senha
+   DB_PORT=5432
+   ```
+4. Execute o script SQL para criar as tabelas:
+   ```bash
+   psql -U seu_usuario -d nome_do_banco -f src/database/init.sql
+   ```
 
-## Como executar
+## Executando o Projeto
 
-### Usando Docker (Recomendado)
-
-1. Execute o comando para iniciar os containers:
-```bash
-docker-compose up --build
-```
-
-A API estará disponível em `http://localhost:3000`
-
-### Localmente
-
-1. Instale as dependências:
-```bash
-npm install
-```
-
-2. Execute o projeto em modo desenvolvimento:
 ```bash
 npm run dev
 ```
 
-3. Para build de produção:
-```bash
-npm run build
-npm start
-```
-
-## Scripts Disponíveis
-
-- `npm run dev`: Inicia o servidor em modo desenvolvimento com hot-reload
-- `npm run build`: Compila o TypeScript para JavaScript
-- `npm start`: Inicia o servidor em modo produção
-- `npm test`: Executa os testes
-
 ## Estrutura do Projeto
 
 ```
-.
-├── src/                    # Código fonte
-├── dist/                   # Código compilado
-├── docker-compose.yml      # Configuração do Docker Compose
-├── Dockerfile             # Configuração do Docker
-├── package.json           # Dependências e scripts
-├── tsconfig.json          # Configuração do TypeScript
-└── .env                   # Variáveis de ambiente
+src/
+├── config/
+│   └── database.ts
+├── controllers/
+│   ├── AreaController.ts
+│   └── ProcessoController.ts
+├── database/
+│   └── init.sql
+├── models/
+│   ├── Area.ts
+│   └── Processo.ts
+├── routes/
+│   ├── areaRoutes.ts
+│   ├── processoRoutes.ts
+│   └── index.ts
+└── server.ts
 ```
 
-## Endpoints
+## API Endpoints
 
 ### Áreas
 
-- `GET /api/areas` - Lista todas as áreas
-- `GET /api/areas/:id` - Busca uma área específica
-- `POST /api/areas` - Cria uma nova área
-- `PUT /api/areas/:id` - Atualiza uma área existente
-- `DELETE /api/areas/:id` - Remove uma área
+#### GET /api/areas
+Lista todas as áreas.
+
+**Resposta:**
+```json
+[
+  {
+    "id": 1,
+    "nome": "TI",
+    "descricao": "Área de Tecnologia da Informação"
+  },
+  {
+    "id": 2,
+    "nome": "RH",
+    "descricao": "Recursos Humanos"
+  }
+]
+```
+
+#### GET /api/areas/:id
+Busca uma área específica.
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "TI",
+  "descricao": "Área de Tecnologia da Informação"
+}
+```
+
+#### POST /api/areas
+Cria uma nova área.
+
+**Request:**
+```json
+{
+  "nome": "TI",
+  "descricao": "Área de Tecnologia da Informação"
+}
+```
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "TI",
+  "descricao": "Área de Tecnologia da Informação"
+}
+```
+
+#### PUT /api/areas/:id
+Atualiza uma área existente.
+
+**Request:**
+```json
+{
+  "nome": "Tecnologia da Informação",
+  "descricao": "Área responsável por sistemas e infraestrutura"
+}
+```
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "Tecnologia da Informação",
+  "descricao": "Área responsável por sistemas e infraestrutura"
+}
+```
+
+#### DELETE /api/areas/:id
+Remove uma área.
+
+**Resposta:**
+```json
+{
+  "message": "Área removida com sucesso"
+}
+```
 
 ### Processos
 
-- `GET /api/processos` - Lista todos os processos
-- `GET /api/processos/:id` - Busca um processo específico
-- `POST /api/processos` - Cria um novo processo
-- `PUT /api/processos/:id` - Atualiza um processo existente
-- `DELETE /api/processos/:id` - Remove um processo
-- `GET /api/processos/:id/subprocessos` - Lista os subprocessos de um processo
+#### GET /api/processos
+Lista todos os processos.
+
+**Resposta:**
+```json
+[
+  {
+    "id": 1,
+    "nome": "Desenvolvimento de Software",
+    "descricao": "Processo de desenvolvimento de aplicações",
+    "area_id": 1,
+    "processo_pai_id": null,
+    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+    "area": {
+      "id": 1,
+      "nome": "TI",
+      "descricao": "Área de Tecnologia da Informação"
+    }
+  }
+]
+```
+
+#### GET /api/processos/:id
+Busca um processo específico.
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "Desenvolvimento de Software",
+  "descricao": "Processo de desenvolvimento de aplicações",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+  "area": {
+    "id": 1,
+    "nome": "TI",
+    "descricao": "Área de Tecnologia da Informação"
+  }
+}
+```
+
+#### GET /api/processos/arvore/:areaId?/:processoId?
+Busca a árvore de processos de uma área ou a partir de um processo específico.
+
+**Resposta:**
+```json
+[
+  {
+    "id": 1,
+    "nome": "Desenvolvimento de Software",
+    "descricao": "Processo de desenvolvimento de aplicações",
+    "area_id": 1,
+    "processo_pai_id": null,
+    "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+    "area": {
+      "id": 1,
+      "nome": "TI",
+      "descricao": "Área de Tecnologia da Informação"
+    },
+    "subprocessos": [
+      {
+        "id": 2,
+        "nome": "Análise de Requisitos",
+        "descricao": "Processo de análise e documentação de requisitos",
+        "area_id": 1,
+        "processo_pai_id": 1,
+        "sistemas_ferramentas": ["Jira", "Confluence", "Draw.io"],
+        "area": {
+          "id": 1,
+          "nome": "TI",
+          "descricao": "Área de Tecnologia da Informação"
+        },
+        "processo_pai": {
+          "id": 1,
+          "nome": "Desenvolvimento de Software",
+          "descricao": "Processo de desenvolvimento de aplicações"
+        }
+      }
+    ]
+  }
+]
+```
+
+#### POST /api/processos
+Cria um novo processo.
+
+**Request:**
+```json
+{
+  "nome": "Desenvolvimento de Software",
+  "descricao": "Processo de desenvolvimento de aplicações",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"]
+}
+```
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "Desenvolvimento de Software",
+  "descricao": "Processo de desenvolvimento de aplicações",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js"],
+  "area": {
+    "id": 1,
+    "nome": "TI",
+    "descricao": "Área de Tecnologia da Informação"
+  }
+}
+```
+
+#### PUT /api/processos/:id
+Atualiza um processo existente.
+
+**Request:**
+```json
+{
+  "nome": "Desenvolvimento de Software",
+  "descricao": "Processo de desenvolvimento e manutenção de aplicações",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js", "Docker"]
+}
+```
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "Desenvolvimento de Software",
+  "descricao": "Processo de desenvolvimento e manutenção de aplicações",
+  "area_id": 1,
+  "processo_pai_id": null,
+  "sistemas_ferramentas": ["Git", "VS Code", "PostgreSQL", "Node.js", "Docker"],
+  "area": {
+    "id": 1,
+    "nome": "TI",
+    "descricao": "Área de Tecnologia da Informação"
+  }
+}
+```
+
+#### DELETE /api/processos/:id
+Remove um processo.
+
+**Resposta:**
+```json
+{
+  "message": "Processo removido com sucesso"
+}
+```
 
 ## Exemplos de Payload
 
 ### Área
-```json
-{
-  "nome": "Nome da Área",
-  "descricao": "Descrição da área",
-  "responsavel": "Nome do Responsável"
-}
 ```
-
-### Processo
-```json 
-{
-  "nome": "Nome do Processo",
-  "descricao": "Descrição do processo",
-  "area_id": 1,
-  "processo_pai_id": null,
-  "sistemas": ["Sistema 1", "Sistema 2"],
-  "responsaveis": ["Responsável 1", "Responsável 2"],
-  "documentacao": ["Link 1", "Link 2"]
-}
-```
-
-## Tecnologias Utilizadas
-
-- Node.js
-- Express
-- TypeScript
-- PostgreSQL
-- Docker
-- Docker Compose 
